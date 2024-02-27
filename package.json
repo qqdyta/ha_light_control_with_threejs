@@ -4,7 +4,6 @@
   "description": "用于9楼B区的灯光控制DEMO",
   "main": "main.js",
   "scripts": {
-    "build": "electron-packager .",
     "package-win": "electron-packager . MyApp --platform=win32 --arch=x64 --out=release-builds --overwrite",
     "package-pi": "electron-packager . MyApp --platform=linux --arch=armv7l --out=release-builds --overwrite",
     "start": "electron .",
