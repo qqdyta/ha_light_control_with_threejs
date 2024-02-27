@@ -15,7 +15,7 @@ function createMainWindows(){
     //titleBarStyle: 'hidden',
 
     frame:true,
-    icon: "./static/light.ico",
+    // icon: "./static/light.ico",
     webPreferences: {
         nodeIntegration: true,
         //preload: path.join(__dirname, 'preload.js'),
@@ -42,12 +42,13 @@ ipcMain.on('off', (event, arg) => {
   main_windows.hide();
 })
 
-
-
-
+const appPath = app.getAppPath()
+const srcPath = path.join(appPath, 'src')
+const iconPath = path.join(srcPath, 'light.ico')
 app.whenReady().then(() => {
   //createMenu()
-  const tray = new Tray('./src/light.ico')
+
+  const tray = new Tray(iconPath)
 
   // 设置hover字符
   tray.setToolTip("灯光控制")

@@ -71,7 +71,7 @@ function light_off(id){
 // 请慎重修改id，
 exports.light_control = function light_control(id, state) {
     return new Promise((resolve, reject) => {
-        if(id == 'Midd'){
+        if(id == 'Mid'){
             if(state == 'on'){
 
                 light_on('switch.9b_stu_test_switch_3')
@@ -82,7 +82,7 @@ exports.light_control = function light_control(id, state) {
                 light_off('switch.9b_stu_test_switch_4')
                 light_off('switch.9b_stu_ee_switch_1')
             }
-        }else if(id  == "TEE"){
+        }else if(id  == "TE"){
             if(state == 'on'){
                 light_on('switch.9b_stu_test_switch_1')
                 light_on('switch.9b_stu_test_switch_2')
@@ -90,7 +90,7 @@ exports.light_control = function light_control(id, state) {
                 light_off('switch.9b_stu_test_switch_1')
                 light_off('switch.9b_stu_test_switch_2')
             }
-        }else if(id == "EEE"){
+        }else if(id == "EE"){
             if(state == 'on'){
                 light_on('switch.9b_stu_ee_switch_2')
                 light_on('switch.9b_stu_ee_switch_3')
