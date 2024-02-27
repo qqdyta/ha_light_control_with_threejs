@@ -46,8 +46,6 @@ const appPath = app.getAppPath()
 const srcPath = path.join(appPath, 'src')
 const iconPath = path.join(srcPath, 'light.ico')
 app.whenReady().then(() => {
-  //createMenu()
-
   const tray = new Tray(iconPath)
 
   // 设置hover字符
