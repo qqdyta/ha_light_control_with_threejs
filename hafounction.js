@@ -68,7 +68,7 @@ function light_off(id){
     })
 }
 
-
+// 请慎重修改id，
 exports.light_control = function light_control(id, state) {
     return new Promise((resolve, reject) => {
         if(id == 'Midd'){
