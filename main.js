@@ -86,8 +86,6 @@ let trayContextMenu = Menu.buildFromTemplate([
   {
     label: 'STU 电子&结构 全开',
     click: () => {
-      // light_control('Mid', 'on')
-      // light_control('TE', 'on')
       light_control('EE', 'on')
     }
   },{
