@@ -65,11 +65,6 @@ app.whenReady().then(() => {
     tray.popUpContextMenu(trayContextMenu)
   })
 
-
-/*  //打开调试窗口
-  setTimeout(() => {
-    main_windows.webContents.openDevTools()
-  }, 100);*/
 })
 let trayContextMenu = Menu.buildFromTemplate([
   {
