@@ -1,0 +1,44 @@
+:root {
+    --seeed-light: #9ac141;
+    --seeed-dark: #153946;
+}
+
+.seeed-background-dark {
+    background-color: #153946;
+}
+
+.seeed-background-light {
+    background-color: #9ac141;
+}
+
+
+
+.head-item-btn {
+    border-radius: 20px;
+    font-weight: bold;
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 16px;
+    width: 100%;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 10px;
+    color: var(--seeed-light)
+}
+
+.head-item-btn:hover {
+    background-color: var(--seeed-light);
+    transition: aLL 0.1s linear;
+    color: var(--seeed-dark);
+
+}
+
+
+.pad-on {
+
+}
+
+.pad-down{
+
+}
+

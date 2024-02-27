@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!-- StyleSheets -->
+    <link href="./src/jquery-ui-1.13.0/jquery-ui.css" rel="stylesheet">
+    <link href="./src/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="./src/style.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="./src/jquery/jquery-3.4.1.js"></script>
+    <script src="./src/bootstrap/js/bootstrap.js"></script>
+
+    <script type="importmap">
+        {"imports":{
+            "jquery":"./src/jquery/jquery-3.4.1.js",
+            "bootstrap":"./src/bootstrap/js/bootstrap.js",
+            "script":"./src/script.js",
+            "three": "./src/threejs/three.js"
+        }}
+    </script>
+
+    <link rel="icon" href="./static/icon.png">
+    <title> HomeAssistant 办公室灯光控制 beta </title>
+</head>
+<body>
+
+<div style="position: absolute; z-index: 1; width: 100%;">
+    <div style="width: 100%; height: 50px; display: flex; box-shadow: 0px 0px 10px 20px rgba(50, 50, 50, 0.2); backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.5)">
+        <div style="width: 40%">
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; padding-left: 10px">
+                <div style="align-items: center;  background-color: rgba(255, 255, 255, 0.5); padding: 10px; width: 90%; height: 80%; box-shadow: -1px -1px 5px 2px rgba(255, 255, 255, 0.8), 1px 1px 5px 2px rgba(10, 10, 10, 0.3); border-radius: 5px 15px 15px 5px; display: flex">
+                    <div style="font-weight: bolder; font-size: 20px">Home Assistant 办公室灯光控制</div>
+                    &nbsp
+                    <div style="color: grey">Beta</div>
+                </div>
+
+            </div>
+        </div>
+        <div style="width: 45%">
+
+        </div>
+        <div style="width: 5%">
+            <input type="button" id="server_status" value="" class=" btn ">
+        </div>
+        <div style="width: 5%; padding-top: 5px">
+            <input type="button" id="setting" value="设置" data-bs-toggle="modal" data-bs-target="#setting_modal"
+                   class=" btn btn-secondary">
+        </div>
+        <div style="width: 5%; padding-top: 5px">
+            <input type="button" id="fuckingoff" class="btn btn-danger" value="后台">
+        </div>
+    </div>
+</div>
+<div id="webgl" style="z-index: -1; position: absolute"></div>
+
+<script type="module" src="./views.js"></script>
+<div class="modal modal-lg" tabindex="-1" id="setting_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-weight: bolder">灯控软件的设置</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center">
+                        <p> 当前版本： 0.0.1</p>
+                        <p> 接下来的更新： 将IAG的开关也加入到系统，更新软件</p>
+                        <p> 这个软件目前是在测试阶段</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend" id="GPS_LOSS_Result_BOX">
+                                <label class="input-group-text" for="Area_select">请选择你所处的区域</label>
+                            </div>
+                            <select class="form-control" name="Cyc_Modal" id="Area_select">
+                                <option value="9A">9楼A区</option>
+                                <option value="9B">9楼B区</option>
+                                <option value="10">10楼区域</option>
+                            </select>
+                            <input class="btn btn-primary" value="提交" id="confirm_area" type="button">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div clas="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="font-weight: bolder; font-size: 23px">
+                                <img src="./src/svg/question.svg" width="24" height="24"></img>&nbsp&nbsp目前已知的问题
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2 class="text-body-emphasis" style="font-size: 16px">
+                                            软件启动不会自动初始化</h2>
+                                        <p style="font-size: 12px">
+                                            软件在打开后没有向服务器去查询对应区域的灯光情况，而是默认会将界面所有的灯光设置为打开，这不会影响到实际的灯光，只是你的第一次点击可能会让本来就关闭的灯光在关闭一次，这也不会影响到实际的灯光，只是会多一次无用的点击.
+                                            在我处理完所有开关以后我会首先解决这个问题</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h2 class="text-body-emphasis" style="font-size: 16px">
+                                            软件启动后占用的内存有点儿大</h2>
+                                        <p style="font-size: 12px">
+                                            软件在启动后会占用大约300M的内存，相较于他实现的功能来说这个占用显然有点儿太大了。但是好消息是他只会静静的躺在内存里，不会去给你电脑的CPU和GPU找麻烦。我会在实现了所有功能以后去解决内存占用的问题</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-md-12"
+                         style="align-items: center; text-align: center; font-size: 20px; font-weight: bolder">
+                        <p class="badge rounded-pill text-bg-secondary">来自开发者的碎碎念&nbsp&#128071</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="align-items: center; text-align: center; font-size: 15px">
+                        <p>这份软件目前依然在开发中，相关的设置将会(很)慢(很)慢的开放</p>
+                        <p> 这是一个不会主动打扰使用者的小app</p>
+                        <p> 开发它的目的是因为开发者是个超级大懒人</p>
+                        <p> 觉得通过进入网页控制灯光的方法要点击好多次。在操作方法上太麻烦</p>
+                        <p> 开发者的想法是想要在实现便捷控制灯光的基础上尽量减少点击的次数</p>
+                        <p> 点击这个app启动以后打开的是一个开发者认为很酷的界面， </p>
+                        <p> 是一个可以拖动模型、点击相应区域的桌子来控制灯光亮灭的界面</p>
+                        <p> 但是开发者是一个工程师，不是设计师，</p>
+                        <p> 因此他画的这个办公室的模型很丑</p>
+                        <p> 可能需要你费点儿精力才能搞懂界面中的模型中到底是哪里</p>
+                        <p> 这注定使用起来不是特别方便，所以开发者设计了一个任务栏的图标</p>
+                        <p> 在你点击界面右上角的红色&nbsp<span class="badge text-bg-danger">后台</span>&nbsp按钮关闭界面以后
+                        </p>
+                        <p> 这个app会退到你电脑下面的任务栏里，就是那个小灯泡 <img src="./src/Lightbulb.png"
+                                                                                  width="16" height="16"></img> 的图标
+                        </p>
+                        <p> 右键单击这个图标可以显示一些集成的功能</p>
+                        <p> 这些功能是开发者自己拍脑袋想出来的</p>
+                        <p> 所以可能(一定)不会很适合你的日常工作的操作</p>
+                        <p> 如果你对这个app有更好的主意想法</p>
+                        <P> 请联系一下9楼B区测试组的窗边儿被两台显示器挡在背后的那个男生</p>
+                        <p> 把你的想法告诉他，越酷的想法越好</p>
+                        <p> 但是这个男生是个懒人，所以这个app的开发进度可能(一定)会很慢</p>
+                        <p> 但是他会尽量的去实现你的想法</p>
+                        <P> 还有一个很重要的事情</P>
+                        <p> 如果有一天你发现这个app不好用了</p>
+                        <p> 那么极大概率是我们的HA服务器出问题了</p>
+                        <p> 这时候就不要联系测试组窗边儿的那个男生了</p>
+                        <p> 请打开企业微信</p>
+                        <p> 打开苏耀东的聊天窗口</p>
+                        <p> 发送以下口令</p>
+                        <p> "Hi 耀东，HA服务器是不是出问题了？ 怎么上不去了？"</p>
+                        <p> 然后等待大约十几二十分钟</p>
+                        <p> 这个小软件就会恢复正常了</p>
+                        <p> 如果使用过程中遇到其他问题</p>
+                        <p> 还请联系测试组窗边儿的那个男生</p>
+                        <br>
+                        <p style="font-size: 50px; font-weight: bolder"> : ) </p>
+                        <br>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background-color: rgba(0, 0, 0, 0)" data-bs-dismiss="modal">
+                    <img src="./src/svg/yue.png" width="32" height="32"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script type="module" src="./src/script.js"></script>
+</html>
