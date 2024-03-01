@@ -8,6 +8,13 @@ const {light_control} = require("./hafounction");
 let main_windows  // 主窗口
 let has_init = true
 
+
+const documentsPath = path.join(process.env.HOME, 'Documents'); // 用户的Documents文件夹路径
+const dataPath = path.join(documentsPath, 'data'); // data文件夹路径
+const filePath = path.join(dataPath, 'config.json'); // data.txt文件路径
+
+
+
 // 创建主窗口
 function createMainWindows(){
   main_windows = new BrowserWindow({
@@ -38,8 +45,6 @@ function createMainWindows(){
   // main_windows.webContents.openDevTools()
 }
 
-
-
 ipcMain.on('off', (event, arg) => {
   main_windows.hide();
 })
@@ -58,90 +63,12 @@ app.whenReady().then(() => {
     })
 
 
-
-
   // 设置右键菜单
   tray.on('right-click', () => {
-    tray.popUpContextMenu(trayContextMenu)
+    tray.popUpContextMenu(trayInit())
   })
 
 })
-let trayContextMenu = Menu.buildFromTemplate([
-  {
-    label: 'STU 全开',
-    click: () => {
-      light_control('Mid', 'on')
-      light_control('TE', 'on')
-      light_control('EE', 'on')
-    }
-  },{
-    label: 'STU 全关',
-    click: () => {
-      light_control('Mid', 'off')
-      light_control('TE', 'off')
-      light_control('EE', 'off')
-    }
-  },
-  {
-    type: 'separator'
-  },
-  {
-    label: 'STU 电子&结构 全开',
-    click: () => {
-      light_control('EE', 'on')
-    }
-  },{
-    label: '项目   全开',
-    click: () => {
-      light_control('Mid', 'on')
-      // light_control('TE', 'on')
-      // light_control('EE', 'on')
-    }
-  },{
-    label: '测试 软件 全开',
-    click: () => {
-      // light_control('Mid', 'on')
-      light_control('TE', 'on')
-      // light_control('EE', 'on')
-    }
-  },
-  {
-    type: 'separator'
-  },{
-    label: '电子 结构 全关',
-    click: () => {
-      // light_control('Mid', 'off')
-      // light_control('TE', 'off')
-      light_control('EE', 'off')
-    }
-  },{
-    label: '项目    全关',
-    click: () => {
-      light_control('Mid', 'off')
-      // light_control('TE', 'off')
-      // light_control('EE', 'off')
-    }
-  },{
-    label: '测试 软件 全关',
-    click: () => {
-      // light_control('Mid', 'off')
-      light_control('TE', 'off')
-      // light_control('EE', 'off')
-    }
-  },
-  {
-    type: 'separator'
-  }, {
-    label: '退出',
-    // icon: 'resources/ico/quit.png',
-    role: 'quit',
-    click: () => {
-      console.log("退出")
-      app.quit()
-    }
-  }
-])
-
 ipcMain.on('clicked', (event, arg) => {
   console.log('the data is ', arg)
   let id = arg.split('-')[0]
@@ -155,26 +82,22 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
-
 function trayInit(){
-  const userDocumentsPath = process.env.HOME || process.env.USERPROFILE;
-  const configFilePath = path.join(userDocumentsPath, 'Documents', 'config.json');
-  let area = "9B"
+  let area = '9B'
 // 调用函数并输出结果
-  const fileContent = checkAndReadFile(configFilePath);
+  const fileContent = checkAndReadFile(filePath);
   if (fileContent === false) {
-    console.log('config.json 文件不存在');
+    console.log('config.json Not exits');
     has_init = false
-
   } else {
-    console.log('config.json 文件内容:', fileContent);
-    area = JSON.parse(fileContent).area
+    console.log('config.json data is:', fileContent);
+    area = JSON.parse(fileContent).Area
   }
+
+  console.log('the area is ', area)
+
   if(area == '9B'){
     return  Menu.buildFromTemplate([
-
-
       {
         label: 'STU 全开',
         // icon: './static/svg/Lightbulb-alt.png',
@@ -197,16 +120,13 @@ function trayInit(){
         type: 'separator'
       }, {
         label: 'IAG 全开',
-        // icon: './static/svg/Lightbulb-alt.png',
         click: () => {
-          // main_windows.webContents.send('prevMusic')
+
         }
       },
       {
         label: 'IAG 全关',
-        // icon: '/static/svg/Lightbulb-off.png',
         click: () => {
-          // main_windows.webContents.send('prevMusic')
         }
       },
       {
@@ -214,7 +134,6 @@ function trayInit(){
       },
       {
         label: '退出',
-        // icon: 'resources/ico/quit.png',
         role: 'quit',
         click: () => {
           console.log("退出")
@@ -222,48 +141,64 @@ function trayInit(){
         }
       }
     ])
-  }else{
+  }else if(area == '9A'){
     return  Menu.buildFromTemplate([
       {
         label: '前台 全开',
-        // icon: './static/svg/Lightbulb-alt.png',
         click: () => {
-          light_control('Mid', 'on')
-          light_control('TE', 'on')
-          light_control('EE', 'on')
+          light_control('Front', 'on')
         }
       },
       {
         label: '前台 全关',
-        // icon: './static/svg/Lightbulb-off.png',
         click: () => {
-          light_control('Mid', 'off')
-          light_control('TE', 'off')
-          light_control('EE', 'off')
-
+          light_control('Front', 'off')
         }
       }, {
         type: 'separator'
       }, {
         label: '休息区 全开',
-        // icon: './static/svg/Lightbulb-alt.png',
         click: () => {
-          // main_windows.webContents.send('prevMusic')
+          light_control('REST', 'on')
         }
-      },
-      {
-        label: 'IAG 全关',
-        // icon: '/static/svg/Lightbulb-off.png',
+      },{
+        label: '休息区 全关',
         click: () => {
-          // main_windows.webContents.send('prevMusic')
+          light_control('REST', 'off')
         }
       },
       {
         type: 'separator'
+      },{
+        label: 'COM HR 开',
+        click: () => {
+          light_control('COM', 'on')
+        }
+      },
+      {
+        label: 'COM HR 关',
+        click: () => {
+          light_control('COM', 'off')
+        }
+      }, {
+        type: 'separator'
+      },{
+        label: 'SCM OPG 开',
+        click: () => {
+          light_control('SCM', 'on')
+        }
+      },
+      {
+        label: 'SCM OPG 关',
+        click: () => {
+          light_control('SCM', 'off')
+        }
+      }, {
+        type: 'separator'
       },
       {
         label: '退出',
-        // icon: 'resources/ico/quit.png',
+
         role: 'quit',
         click: () => {
           console.log("退出")
@@ -271,34 +206,259 @@ function trayInit(){
         }
       }
     ])
+  }else if(area == '9BIAG'){
+    return  Menu.buildFromTemplate([
+      {
+        label: 'IAG东  开',
+        click: () => {
+          light_control('IAGE', 'on')
+        }
+      },
+      {
+        label: 'IAG东  关',
+        click: () => {
+          light_control('IAGE', 'off')
+        }
+      }, {
+        type: 'separator'
+      }, {
+        label: 'IAG西 开',
+        click: () => {
+          light_control('IAGW', 'on')
+        }
+      },{
+        label: 'IAG西 开',
+        click: () => {
+          light_control('IAGW', 'off')
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: '退出',
+        role: 'quit',
+        click: () => {
+          console.log("退出")
+          app.quit()
+        }
+      }
+    ])
+  }else if(area == '9BSTU'){
+    return  Menu.buildFromTemplate([
+      {
+        label: 'STU 硬件 结构 开',
+        click: () => {
+          light_control('EE', 'on')
+        }
+      },{
+        label: 'STU 项目  开',
+        click: () => {
+          light_control('PM', 'on')
+        }
+      },{
+        label: 'STU 测试 软件 开',
+        click: () => {
+          light_control('TE', 'on')
+        }
+      }, {
+        type: 'separator'
+      },{
+        label: 'STU 硬件 结构 关',
+        click: () => {
+          light_control('EE', 'off')
+        }
+      },{
+        label: 'STU 项目  关',
+        click: () => {
+          light_control('PM', 'off')
+        }
+      },{
+        label: 'STU 测试 软件 关',
+        click: () => {
+          light_control('TE', 'off')
+        }
+      },{
+        type: 'separator'
+      },
+      {
+        label: '退出',
+
+        role: 'quit',
+        click: () => {
+          console.log("退出")
+          app.quit()
+        }
+      }
+    ])
+  }else if(area == '9AHR'){
+    return  Menu.buildFromTemplate([
+      {
+        label: 'HR COM 开',
+        click: () => {
+          light_control('HR', 'on')
+        }
+      },
+      {
+        label: 'HR COM 关',
+        click: () => {
+          light_control('HR', 'off')
+        }
+      }, {
+        type: 'separator'
+      }, {
+        label: 'OPG 开',
+        click: () => {
+          light_control('OPG', 'on')
+        }
+      },{
+        label: 'OPG 关',
+        click: () => {
+          light_control('OPG', 'off')
+        }
+      },
+      {
+        type: 'separator'
+      },{
+        label: 'A区 全开',
+        click: () => {
+          light_control('9A', 'on')
+        }
+      },
+      {
+        label: 'A区 全关',
+        click: () => {
+          light_control('9B', 'off')
+        }
+      },{
+        type: 'separator'
+      },{
+        label: '休息区 全开',
+        click: () => {
+          light_control('REST', 'on')
+        }
+      },{
+        label: '休息区 全关',
+        click: () => {
+          light_control('REST', 'off')
+        }
+      },{
+        type: 'separator'
+      },{
+        label: '退出',
+
+        role: 'quit',
+        click: () => {
+          console.log("退出")
+          app.quit()
+        }
+      }
+    ])
+  }else if(area == '9ASMG'){
+    return  Menu.buildFromTemplate([
+      {
+        label: 'SMG 开',
+        click: () => {
+          light_control('SMG', 'on')
+        }
+      },
+      {
+        label: 'SMG 关',
+        click: () => {
+          light_control('SMG', 'off')
+        }
+      }, {
+        type: 'separator'
+      }, {
+        label: '销售 开',
+        click: () => {
+          light_control('SELL', 'on')
+        }
+      },{
+        label: '销售 关',
+        click: () => {
+          light_control('SELL', 'off')
+        }
+      },
+      {
+        type: 'separator'
+      },{
+        type: 'separator'
+      },{
+        label: '退出',
+        role: 'quit',
+        click: () => {
+          console.log("退出")
+          app.quit()
+        }
+      }
+    ])
+  }else if(area == '9AFront'){
+    return  Menu.buildFromTemplate([
+      {
+        label: '前台 全开',
+        click: () => {
+          light_control('Front', 'on')
+        }
+      },
+      {
+        label: '前台 全关',
+        click: () => {
+          light_control('Front', 'off')
+        }
+      },{
+        type: 'separator'
+      },{
+        label: '休息区 全开',
+        click: () => {
+          light_control('REST', 'on')
+        }
+      },{
+        label: '休息区 全关',
+        click: () => {
+          light_control('REST', 'off')
+        }
+      },{
+        type: 'separator'
+      },{
+        label: 'COM HR 开',
+        click: () => {
+          light_control('COM', 'on')
+        }
+      },{
+        label: 'COM HR 关',
+        click: () => {
+          light_control('COM', 'off')
+        }
+      },{
+        type: 'separator'
+      },{
+        label: 'SCM OPG 开',
+        click: () => {
+          light_control('SCM', 'on')
+        }
+      },{
+        label: 'SCM OPG 关',
+        click: () => {
+          light_control('SCM', 'off')
+        }
+      },{
+        type: 'separator'
+      },{
+        label: '退出',
+
+        role: 'quit',
+        click: () => {
+          console.log("退出")
+          app.quit()
+        }
+      }
+  ])
   }
-
-
 }
-
-
-
-
-
 ipcMain.on('set_area', (event, arg) => {
   console.log('the area is ', arg)
 })
-
-
-
-function set_area(area){
-  let file_name = 'config.json'
-  let filePath = path.join(os.homedir(), 'Documents', file_name);
-
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, JSON.stringify({}));
-    console.log(`Created new file at ${filePath}`);
-  }
-  let data = {'area': area}
-  fs.writeFileSync(filePath, JSON.stringify(data))
-  main_windows.webContents.send('set_area_result', true)
-}
-
 
 function checkAndReadFile(filePath) {
   // 检查文件是否存在
@@ -308,10 +468,11 @@ function checkAndReadFile(filePath) {
       const content = fs.readFileSync(filePath, 'utf8');
       return content;
     } catch (error) {
-      console.error('读取文件时出错:', error);
+      console.error('readFile fail:', error);
       return false;
     }
   } else {
+    console.log('FileNotExist:', filePath);
     return false;
   }
 }

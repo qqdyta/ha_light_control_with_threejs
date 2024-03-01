@@ -17,7 +17,7 @@ const defaultContent  = JSON.stringify({'Area': '9B'}); // 默认内容
 function readFileContent(filePath) {
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
-            console.error('读取文件内容时出错:', err);
+            console.error('readFileError:', err);
         } else {
             return data
         }
@@ -40,13 +40,13 @@ exports.init = function(windows){
             // data文件夹不存在，创建data文件夹
             fs.mkdir(dataPath, { recursive: true }, (err) => {
                 if (err) {
-                    console.error('创建data文件夹失败:', err);
+                    console.error('CreateDataFolderFail:', err);
                 } else {
                     fs.writeFile(filePath, defaultContent, (err) => {
                         if (err) {
-                            console.error('创建文件并写入内容时出错:', err);
+                            console.error('WriteError:', err);
                         } else {
-                            console.log('文件已创建并写入默认内容');
+                            console.log('CreateFile');
                             readFileContent(filePath);
                         }
                     });
@@ -57,18 +57,18 @@ exports.init = function(windows){
 
                 if (err) {
                     // 文件不存在，创建文件并写入默认内容
-                    console.log('文件不存在，正在创建文件...');
+                    console.log('FileNotExist,CreateFileAndWriteDefaultContent');
                     fs.writeFile(filePath, defaultContent, (err) => {
                         if (err) {
-                            console.error('创建文件并写入内容时出错:', err);
+                            console.error('Create File Fail:', err);
                         } else {
-                            console.log('文件已创建并写入默认内容');
+                            console.log('Create File');
                             readFileContent(filePath);
                         }
                     });
                 } else {
                     // 文件存在，读取文件内容
-                    console.log('文件存在，正在读取内容...');
+                    console.log('File Exit,ReadFileContent');
                     readFileContent(filePath);
                 }
             });

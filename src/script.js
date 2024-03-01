@@ -10,7 +10,6 @@ document.getElementById('setting').addEventListener('click', ()=>{
     document.getElementById('seAreaBtn').value="提交"
     document.getElementById('seAreaBtn').classList.remove('btn-success')
     document.getElementById('seAreaBtn').classList.add('btn-primary')
-
 })
 
 
