@@ -456,6 +456,7 @@ function trayInit(){
   ])
   }
 }
+
 ipcMain.on('set_area', (event, arg) => {
   console.log('the area is ', arg)
 })
