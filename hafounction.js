@@ -36,7 +36,6 @@ function light_on(id){
 }
 
 
-
 function light_off(id){
     return new Promise((resolve, reject) => {
         const url = 'http://192.168.12.253:8123/api/services/switch/turn_off'
