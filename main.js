@@ -3,6 +3,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const ha = require('./hafounction')
+const controller = require('./controller')
 const {light_control} = require("./hafounction");
 let main_windows  // 主窗口
 let has_init = true
