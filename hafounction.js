@@ -8,7 +8,7 @@ function light_on(id){
     return new Promise((resolve, reject) => {
         const url = 'http://192.168.12.253:8123/api/services/switch/turn_on'
         const data = {
-            entity_id: id
+            entity_id: id + 'e'
         };
         fetch(url, {
             method: 'POST',
