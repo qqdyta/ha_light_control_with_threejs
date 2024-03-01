@@ -11,17 +11,6 @@ init();
 render();
 
 function init() {
-    document.getElementById('confirm_area').addEventListener('click', function (){
-        let area = document.getElementById("Area_select").value
-        console.log('the area is ', area)
-        ipcRenderer.once('set_area_result', (arg) => {
-            console.log('the result is ', arg)
-            if(arg == true){
-                alert('设置成功')
-            }
-        })
-        ipcRenderer.send('set_area', area)
-    })
 
     const container = document.createElement( 'div' );
     document.body.appendChild( container );

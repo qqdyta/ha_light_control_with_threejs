@@ -28,6 +28,7 @@ function createMainWindows(){
 
   main_windows.setMenuBarVisibility(false)
   main_windows.loadFile('index.html')
+  controller.init(main_windows)
   // 监听窗口的关闭事件
   main_windows.on('close', (event) => {
 
