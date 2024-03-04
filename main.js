@@ -9,9 +9,9 @@ let main_windows  // 主窗口
 let has_init = true
 
 
-const documentsPath = path.join(process.env.HOME, 'Documents'); // 用户的Documents文件夹路径
-const dataPath = path.join(documentsPath, 'data'); // data文件夹路径
-const filePath = path.join(dataPath, 'config.json'); // data.txt文件路径
+const fileName = 'data.json';
+// 获取当前路径下的完整文件路径
+const dataPath = path.join(__dirname, fileName);
 
 
 
@@ -85,7 +85,7 @@ app.on('window-all-closed', () => {
 function trayInit(){
   let area = '9B'
 // 调用函数并输出结果
-  const fileContent = checkAndReadFile(filePath);
+  const fileContent = checkAndReadFile(dataPath);
   if (fileContent === false) {
     console.log('config.json Not exits');
     has_init = false
